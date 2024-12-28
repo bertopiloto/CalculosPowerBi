@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Exemplos de Cálculos DAX</title>
+  <title>Exemplos de Cálculos DAX e Excel</title>
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEJb3QJz8IOLbC9xED4E4w5lMlWQFzvwX6sco5l7g6OkmNRqmrL6UJYjHpxz0" crossorigin="anonymous">
   <style>
@@ -36,72 +36,184 @@
 <body>
 
 <div class="container">
-  <h1>Exemplos de Cálculos DAX</h1>
+  <h1>Exemplos de Cálculos DAX e Excel</h1>
 
   <!-- Exemplo 1: Cálculo de Desconto -->
-  <div class="example-card">
+  <section class="example-card">
     <h4>Exemplo 1: Cálculo de Desconto</h4>
     <p>Este cálculo calcula o desconto de 50% de um produto:</p>
-    <div class="code">
-      Desconto_Produto = <br>
-      <span style="color: blue;">VAR</span> Desconto = Produtos[Preco] * 0.5<br>
-      <span style="color: blue;">RETURN</span> Desconto
-    </div>
+    <pre class="code">
+Desconto_Produto = 
+  VAR Desconto = Produtos[Preco] * 0.5
+  RETURN Desconto
+    </pre>
     <p>Este cálculo pode ser usado para calcular 50% do preço de um produto.</p>
-  </div>
+  </section>
 
   <!-- Exemplo 2: Cálculo de Total de Vendas -->
-  <div class="example-card">
+  <section class="example-card">
     <h4>Exemplo 2: Cálculo de Total de Vendas</h4>
     <p>Este cálculo multiplica a quantidade de produtos vendidos pelo preço de cada produto:</p>
-    <div class="code">
-      Total_Vendas = Vendas[Quantidade] * Vendas[Preco_Produto]
-    </div>
+    <pre class="code">
+Total_Vendas = Vendas[Quantidade] * Vendas[Preco_Produto]
+    </pre>
     <p>Esse cálculo retorna o total de vendas baseado na quantidade vendida e no preço de cada produto.</p>
-  </div>
+  </section>
 
   <!-- Exemplo 3: Cálculo usando DIVIDE -->
-  <div class="example-card">
+  <section class="example-card">
     <h4>Exemplo 3: Cálculo usando DIVIDE</h4>
     <p>A função DIVIDE evita erros de divisão por zero:</p>
-    <div class="code">
-      Desconto_ProdutoDivide = <br>
-      <span style="color: blue;">VAR</span> Desconto = Vendas[Preco] * 0.5<br>
-      <span style="color: blue;">RETURN</span> DIVIDE(Desconto, 20, 0)
-    </div>
+    <pre class="code">
+Desconto_ProdutoDivide = 
+  VAR Desconto = Vendas[Preco] * 0.5
+  RETURN DIVIDE(Desconto, 20, 0)
+    </pre>
     <p>Este exemplo calcula o desconto, dividindo por 20 e retornando 0 caso o divisor seja zero.</p>
-  </div>
+  </section>
 
   <!-- Exemplo 4: Usando a função RELATED -->
-  <div class="example-card">
+  <section class="example-card">
     <h4>Exemplo 4: Usando a função RELATED</h4>
     <p>Busca o preço do produto de outra tabela usando a função <code>RELATED</code>:</p>
-    <div class="code">
-      Preco_Produto = RELATED(Produtos[Preco])
-    </div>
+    <pre class="code">
+Preco_Produto = RELATED(Produtos[Preco])
+    </pre>
     <p>Esse exemplo retorna o preço do produto da tabela <code>Produtos</code> para a tabela atual.</p>
-  </div>
+  </section>
 
   <!-- Exemplo 5: Cálculo de Margem de Lucro -->
-  <div class="example-card">
+  <section class="example-card">
     <h4>Exemplo 5: Cálculo de Margem de Lucro</h4>
     <p>Este cálculo calcula a margem de lucro de um produto ou de todas as vendas:</p>
-    <div class="code">
-      Lucro = Vendas[Preco] - Vendas[Custo] <br>
-      Margem_Lucro = DIVIDE(Vendas[Preco] - Vendas[Custo], Vendas[Preco], 0)
-    </div>
+    <pre class="code">
+Lucro = Vendas[Preco] - Vendas[Custo]
+Margem_Lucro = DIVIDE(Vendas[Preco] - Vendas[Custo], Vendas[Preco], 0)
+    </pre>
     <p>A margem de lucro é calculada como a diferença entre o preço de venda e o custo, dividida pelo preço de venda.</p>
     <p>Se você quiser calcular a margem de lucro total para todas as vendas:</p>
-    <div class="code">
-      Lucro_Total = SUM(Vendas[Preco]) - SUM(Vendas[Custo]) <br>
-      Margem_Lucro_Total = DIVIDE(SUM(Vendas[Preco]) - SUM(Vendas[Custo]), SUM(Vendas[Preco]), 0)
-    </div>
+    <pre class="code">
+Lucro_Total = SUM(Vendas[Preco]) - SUM(Vendas[Custo])
+Margem_Lucro_Total = DIVIDE(SUM(Vendas[Preco]) - SUM(Vendas[Custo]), SUM(Vendas[Preco]), 0)
+    </pre>
     <p>Este cálculo retorna a margem de lucro total, considerando o total das receitas e dos custos.</p>
-  </div>
+  </section>
+
+  <!-- Exemplo 6: Receita Líquida com Desconto de 10% -->
+  <section class="example-card">
+    <h4>Exemplo 6: Receita Líquida com Desconto de 10%</h4>
+    <p>Este cálculo aplica um desconto de 10% nas vendas:</p>
+    <pre class="code">
+Receita_Liq_Desconto10% = 
+  SUMX(
+    Vendas, 
+    Vendas[Quantidade] * Vendas[Preço] * (1 - 0.10)
+  )
+    </pre>
+    <p>Este cálculo calcula o total de vendas com um desconto de 10% aplicado a cada produto vendido.</p>
+  </section>
+
+  <!-- Exemplo 7: Receita Líquida com Acréscimo de 50% -->
+  <section class="example-card">
+    <h4>Exemplo 7: Receita Líquida com Acréscimo de 50%</h4>
+    <p>Este cálculo aplica um acréscimo de 50% nas vendas:</p>
+    <pre class="code">
+Receita_Liq_Acrecimo50% = 
+  SUMX(
+    Vendas, 
+    Vendas[Quantidade] * Vendas[Preço] * (1 + 0.50)
+  )
+    </pre>
+    <p>Este cálculo calcula o total de vendas com um acréscimo de 50% aplicado a cada produto vendido.</p>
+  </section>
+
+  <!-- Exemplo 8: Cálculo de Mensalidade com Acréscimo -->
+  <section class="example-card">
+    <h4>Exemplo 8: Cálculo de Mensalidade com Acréscimo</h4>
+    <p>Este cálculo aplica um acréscimo de 10% na mensalidade do aluno:</p>
+    <pre class="code">
+Mensalidade_Acrecimo10% = 
+  VAR MensalidadeBase = 1000
+  RETURN MensalidadeBase * (1 + 0.10)
+    </pre>
+    <p>Este cálculo aplica um acréscimo de 10% sobre o valor da mensalidade base, resultando no novo valor.</p>
+  </section>
+
+  <!-- Exemplo 9: Cálculo de Mensalidade com Desconto -->
+  <section class="example-card">
+    <h4>Exemplo 9: Cálculo de Mensalidade com Desconto</h4>
+    <p>Este cálculo aplica um desconto de 15% na mensalidade do aluno:</p>
+    <pre class="code">
+Mensalidade_Desconto15% = 
+  VAR MensalidadeBase = 1000
+  RETURN MensalidadeBase * (1 - 0.15)
+    </pre>
+    <p>Este cálculo aplica um desconto de 15% sobre o valor da mensalidade base, resultando no valor com desconto.</p>
+  </section>
+
+  <!-- Exemplo 10: Cálculo de Média de Contagem -->
+  <section class="example-card">
+    <h4>Exemplo 10: Cálculo de Média de Contagem</h4>
+    <p>Este cálculo calcula a média dos valores presentes na coluna <code>Contagem</code> da tabela <code>Planilha1</code>:</p>
+    <pre class="code">
+Media_Contagem = AVERAGE(Planilha1[Contagem])
+    </pre>
+    <p>Este cálculo calcula a média dos valores na coluna "Contagem". A função <code>AVERAGE</code> é usada para calcular a média aritmética.</p>
+  </section>
+
+  <!-- Exemplo 11: Cálculo de Porcentagem de Dívidas de Alunos -->
+  <section class="example-card">
+    <h4>Exemplo 11: Cálculo de Porcentagem de Dívidas de Alunos</h4>
+    <p>Este cálculo calcula a porcentagem das dívidas de cada aluno em relação ao total de dívidas:</p>
+    <pre class="code">
+  Devendo = 
+  DIVIDE(
+      SUM(Planilha1[Contagem]), 
+      CALCULATE(SUM(Planilha1[Contagem]), ALL(Planilha1)),
+      0
+  )
+    </pre>
+    <p>Este cálculo usa a função <code>DIVIDE</code> para calcular a porcentagem das dívidas de cada aluno, dividindo a dívida de cada aluno pela soma total das dívidas, considerando todas as linhas da tabela.</p>
+  </section>
+
+  <!-- Exemplo 12: Somar Valores de Entrada e Saída -->
+  <section class="example-card">
+    <h4>Exemplo 12: Somar Valores de Entrada e Saída</h4>
+    <p>Este cálculo soma os valores de entrada e saída de uma tabela:</p>
+    <pre class="code">
+TotalEntradaSaida = 
+  SUMX(
+    Planilha1,
+    Planilha1[Entrada] + Planilha1[Saída]
+  )
+    </pre>
+    <p>Este cálculo soma os valores das colunas "Entrada" e "Saída" na tabela e retorna o total.</p>
+  </section>
+
+  <!-- Exemplo 13: Fórmula PROCV -->
+  <section class="example-card">
+    <h4>Exemplo 13: Fórmula PROCV (Excel)</h4>
+    <p>A fórmula PROCV (Procura Vertical) busca um valor em uma coluna e retorna um valor em uma coluna adjacente. Exemplo:</p>
+    <pre class="code">
+=PROCV(A2, Planilha2!A:B, 2, FALSO)
+    </pre>
+    <p>Este exemplo procura o valor na célula A2 na coluna A da Planilha2 e retorna o valor correspondente na coluna B.</p>
+  </section>
+
+  <!-- Exemplo 14: Fórmula PROCX -->
+  <section class="example-card">
+    <h4>Exemplo 14: Fórmula PROCX (Excel)</h4>
+    <p>A fórmula PROCX é uma versão mais flexível do PROCV. Exemplo:</p>
+    <pre class="code">
+      =PROCX("RA", A2:A10, B2:B10, "Valor não encontrado", 0)
+
+    </pre>
+    <p>Este exemplo procura o valor na célula A2 na coluna A da Planilha2 e retorna o valor correspondente na coluna B. A grande vantagem do PROCX é que ele não requer a ordenação dos dados.</p>
+  </section>
 
 </div>
 
 <!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pzjw8f+ua7Kw1TIq0v8Fqz7c1PO6OKx9t3xnlGTH+aT4WjV9XrbbJHF3fF7OSvdd" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-wlfzVRgyyEoOq4M7Upo1YYUMleCV4qg9q0z0ImkZZn16ykHt58wZer59H9d1P5hp" crossorigin="anonymous"></script>
 </body>
 </html>
